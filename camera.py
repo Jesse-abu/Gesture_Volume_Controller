@@ -5,12 +5,9 @@ from volume import set_volume
 
 #gesture API's
 mp_hands = mp.solutions.hands
-mp_drawing_styles = mp.solutions.drawing_styles
-hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5, max_num_hands=3)
 mp_drawing = mp.solutions.drawing_utils
 
 cap = cv2.VideoCapture(0)
-mylmList = []
 
 if not cap.isOpened():
     print("Cannot open camera")
@@ -61,8 +58,8 @@ with mp_hands.Hands(
                 distance = math.hypot(x2 - x1, y2 - y1)
                 cv2.putText(image, str(int(distance)), (cx+30, cy), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255), 3)
                 activation_distance = math.hypot(act_x2 - act_x1, act_y2 - act_y2)
+                
                 # Calculate bounding box around the hand landmarks
-        
                 xmin, xmax = min(xList), max(xList)
                 ymin, ymax = min(yList), max(yList)
                 box = xmin, ymin, xmax, ymax
