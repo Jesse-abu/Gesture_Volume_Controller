@@ -1,6 +1,6 @@
 from pycaw.pycaw import AudioUtilities
 
-#Voulme control function
+#Volume control function
 def set_volume(value, v_max, v_min):
     if value >= v_max:
         return ValueError('Exceeds limit')
