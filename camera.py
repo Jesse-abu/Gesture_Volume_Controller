@@ -9,6 +9,7 @@ mp_drawing = mp.solutions.drawing_utils
 
 cap = cv2.VideoCapture(0)
 
+#check is webcam is accessible
 if not cap.isOpened():
     print("Cannot open camera")
 
@@ -45,16 +46,20 @@ with mp_hands.Hands(
                     xList.append(xc)
                     yList.append(yc)
 
+                #Coordinates for index finger and thumb
                 x1, y1 = lml[4][1], lml[4][2]
                 x2, y2 = lml[8][1], lml[8][2]
 
+                #Coordinates for middle finger and wrist
                 act_x1, act_y1 = lml[12][1], lml[12][2]
                 act_x2, act_y2 = lml[0][1], lml[0][2]
 
+                #Center distance between index and thumb
                 cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
                 cv2.circle(image, (x1, y1), 10, (255, 0, 255), cv2.FILLED)
                 cv2.circle(image, (x2, y2), 10, (255, 0, 255), cv2.FILLED)
                 cv2.line(image, (x1, y1), (x2, y2), (255, 0, 255), 2)
+                
                 distance = math.hypot(x2 - x1, y2 - y1)
                 cv2.putText(image, str(int(distance)), (cx+30, cy), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255), 3)
                 activation_distance = math.hypot(act_x2 - act_x1, act_y2 - act_y2)
@@ -68,7 +73,7 @@ with mp_hands.Hands(
 
                 cv2.putText(image, str(int(activation_distance)), (0, 80), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)  
 
-
+                #Volume control activation
                 if 300 < area < 1000 and activation_distance < 100:
                     cv2.putText(image, 'Volume On', (0, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
                     cv2.putText(image, str(int(area)), (box[1] + 50, box[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)                 
